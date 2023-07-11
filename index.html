@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>3-Circle Venn Diagram Animation</title>
+  <style>
+    .venn-container {
+      width: 600px;
+      height: 400px;
+      position: relative;
+    }
+
+    .venn-circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      position: absolute;
+      background-color: transparent;
+      transition: background-color 0.5s ease-in-out;
+    }
+
+    .venn-circle.venn-a {
+      border: 2px solid black; /* Add outline to the venn-a circle */
+    }
+
+    .venn-a {
+      top: 100px;
+      left: 100px;
+    }
+
+    .venn-circle.venn-b {
+      border: 2px solid black; /* Add outline to the venn-a circle */
+    }
+
+    .venn-b {
+      top: 200px;
+      left: 175px;
+    }
+
+    .venn-circle.venn-c {
+      border: 2px solid black; /* Add outline to the venn-a circle */
+    }
+
+    .venn-c {
+      top: 100px;
+      right: 140px;
+    }
+
+    .venn-ab {
+      top: 100px;
+      left: 250px;
+    }
+
+    .venn-ac {
+      top: 100px;
+      left: 100px;
+    }
+
+    .venn-bc {
+      top: 100px;
+      left: 250px;
+    }
+
+    .venn-abc {
+      top: 100px;
+      left: 250px;
+    }
+
+    .red {
+      background-color: red !important;
+    }
+    .section-label {
+      position: absolute;
+      font-weight: bold;
+      top: 310px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="venn-container">
+    <div class="venn-circle venn-a"></div>
+    <div class="venn-circle venn-b"></div>
+    <div class="venn-circle venn-c"></div>
+    <div class="venn-circle venn-ab"></div>
+    <div class="venn-circle venn-ac"></div>
+    <div class="venn-circle venn-bc"></div>
+    <div class="venn-circle venn-abc"></div>
+  </div>
+  
+  <div class="section-label" id="label-000">000</div>
+  <div class="section-label" id="label-001">001</div>
+  <div class="section-label" id="label-010">010</div>
+  <div class="section-label" id="label-011">011</div>
+  <div class="section-label" id="label-100">100</div>
+  <div class="section-label" id="label-101">101</div>
+  <div class="section-label" id="label-110">110</div>
+  <div class="section-label" id="label-111">111</div>
+
+  <script>
+    // Define the binary display list
+    var displayList = [
+      "000", // No section displayed
+      "001", // C section displayed
+      "010", // B section displayed
+      "011", // B and C sections displayed
+      "100", // A section displayed
+      "101", // A and C sections displayed
+      "110", // A and B sections displayed
+      "111"  // All sections displayed
+    ];
+
+    // Get the Venn circles
+    var vennCircles = document.querySelectorAll('.venn-circle');
+
+    // Get the section labels
+    var sectionLabels = document.querySelectorAll('.section-label');
+
+    // Animate the sections based on the display list
+    function animateSections() {
+      var currentTime = new Date().getTime() / 2000; // Get current time in seconds
+      var index = Math.floor(currentTime) % displayList.length; // Get current index based on time
+
+      var binaryCode = displayList[index];
+
+      for (var i = 0; i < vennCircles.length; i++) {
+        var section = vennCircles[i];
+
+        if (binaryCode.charAt(i) === "1") {
+          section.classList.add('red');
+        } else {
+          section.classList.remove('red');
+        }
+      }
+
+      // Update the section labels
+      for (var j = 0; j < sectionLabels.length; j++) {
+        var label = sectionLabels[j];
+
+        if (label.id === "label-" + binaryCode) {
+          label.style.color = 'red';
+        } else {
+          label.style.color = 'black';
+        }
+      }
+    }
+
+    // Animate the sections every frame
+    function animate() {
+      animateSections();
+      requestAnimationFrame(animate);
+    }
+
+    // Start the animation
+    animate();
+  </script>
+</body>
+</html>
